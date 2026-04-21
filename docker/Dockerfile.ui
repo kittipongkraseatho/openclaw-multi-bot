@@ -1,0 +1,10 @@
+FROM nginx:alpine
+
+COPY src /usr/share/nginx/html
+COPY docker/nginx.railway.conf.template /etc/nginx/templates/default.conf.template
+
+ENV PORT=8080
+ENV GATEWAY_HOST=openclaw-gateway.railway.internal
+ENV OPENCLAW_GATEWAY_TOKEN=
+
+EXPOSE 8080

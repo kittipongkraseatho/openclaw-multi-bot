@@ -13,8 +13,14 @@ Status: current first-slice flow
 - per-agent AI selection
 - channels
 - default runtime-facing schedules
+- team skill-loading conventions
+- per-agent workspace conventions
 
 The current implementation is file-backed through `src/team-config.json` and validated by `src/team-config.js`.
+
+Related runtime conventions:
+- team skills load from `/root/.openclaw/skills/${TEAM_NAME}/`
+- per-agent workspace files live under `~/.openclaw/agents/{id}/workspace/`
 
 ## Input
 
@@ -34,6 +40,18 @@ Required agent fields:
 - `ai.apiKeyEnv`
 - `channels`
 - `sprite`
+
+Current agent workspace convention:
+- `SOUL.md`: identity, persona, tool routing, non-negotiables
+- `AGENTS.md`: roles, delegation rules, workflow pointer
+- `TOOLS.md`: ready-to-use service commands for that agent
+- `IDENTITY.md`: stable agent id and display name
+
+Current team skill convention:
+- `SKILL.md`: platform service routing
+- `KM.md`: Obsidian vault read/write SOP
+- `WORKFLOW.md`: complexity triage, planning, verification
+- `COMMUNICATION.md`: structural communication rules
 
 ## Current Flow
 

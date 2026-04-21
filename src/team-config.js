@@ -9,73 +9,109 @@ var DEFAULT_TEAM_CONFIG = {
   title: 'OpenClaw Office',
   agents: [
     {
-      id: 'pa',
-      name: 'PERSONAL',
-      kind: 'worker',
-      role: 'General assistant',
-      persona: 'Helpful general assistant for everyday tasks.',
-      workspace: '~/.openclaw/workspace-personal',
+      id: 'gm',
+      name: 'GM',
+      kind: 'orchestrator',
+      role: 'General Manager',
+      persona:
+        'Receives tasks from users via Discord or Web UI. Triage complexity, delegate to Worker agents in parallel, synthesize results, and respond. Load team skills from /root/.openclaw/skills/${TEAM_NAME}/ including SKILL.md, KM.md, WORKFLOW.md, and COMMUNICATION.md. Route knowledge lookups through the shared Obsidian KM vault at disks/km/ before workers rely on the open web.',
+      workspace: '~/.openclaw/agents/gm/workspace',
       ai: {
         provider: 'gemini',
         model: 'gemini-2.5-pro',
         apiKeyEnv: 'GEMINI_API_KEY'
       },
       status: 'WORKING',
-      stats: { tasks: 8, up: '14h', msg: 47, err: 0 },
+      stats: { tasks: 0, up: '0m', msg: 0, err: 0 },
       channels: [
-        { name: 'Telegram', color: '#29b6f6' },
-        { name: 'WhatsApp', color: '#25d366' }
+        { name: 'Discord', color: '#5865f2' },
+        { name: 'Web UI', color: '#90caf9' }
       ],
-      sprite: { hair: '#4e342e', skin: '#ffcc80', shirt: '#0d47a1', pants: '#263238' }
+      sprite: { hair: '#37474f', skin: '#ffcc80', shirt: '#1565c0', pants: '#263238' }
     },
     {
-      id: 'wk',
-      name: 'WORK',
+      id: 'w1',
+      name: 'RESEARCH',
       kind: 'worker',
-      role: 'Email & calendar',
-      persona: 'Organized office assistant focused on communications.',
-      workspace: '~/.openclaw/workspace-work',
-      ai: {
-        provider: 'deepseek',
-        model: 'deepseek-chat',
-        apiKeyEnv: 'DEEPSEEK_API_KEY'
-      },
-      status: 'WORKING',
-      stats: { tasks: 11, up: '14h', msg: 63, err: 1 },
-      channels: [
-        { name: 'Slack', color: '#611f69' },
-        { name: 'Telegram', color: '#29b6f6' }
-      ],
-      sprite: { hair: '#212121', skin: '#ffe0b2', shirt: '#4a148c', pants: '#1a237e' }
-    },
-    {
-      id: 'op',
-      name: 'OPS',
-      kind: 'worker',
-      role: 'Monitoring & alerts',
-      persona: 'Operations agent focused on uptime and incidents.',
-      workspace: '~/.openclaw/workspace-ops',
+      role: 'Research & synthesis',
+      persona:
+        'Runs research and evidence gathering concurrently with other workers. Isolated tool stack under this workspace only, with SOUL.md, AGENTS.md, TOOLS.md, and IDENTITY.md defining local behavior. Persist outcomes to the shared Obsidian KM vault (disks/km/); search disks/km/ before hitting the web so knowledge compounds every session.',
+      workspace: '~/.openclaw/agents/w1/workspace',
       ai: {
         provider: 'gemini',
         model: 'gemini-2.5-flash',
         apiKeyEnv: 'GEMINI_API_KEY'
       },
       status: 'IDLE',
-      stats: { tasks: 5, up: '14h', msg: 32, err: 0 },
+      stats: { tasks: 0, up: '0m', msg: 0, err: 0 },
+      channels: [{ name: 'Internal', color: '#78909c' }],
+      sprite: { hair: '#4e342e', skin: '#ffe0b2', shirt: '#2e7d32', pants: '#1b5e20' }
+    },
+    {
+      id: 'w2',
+      name: 'CODE',
+      kind: 'worker',
+      role: 'Code & implementation',
+      persona:
+        'Runs coding and repo tasks in parallel with other workers. Dedicated isolated tool stack, governed locally by SOUL.md, AGENTS.md, TOOLS.md, and IDENTITY.md so workers never interfere with each other. Document reusable snippets or runbooks into disks/km/ when they become team knowledge.',
+      workspace: '~/.openclaw/agents/w2/workspace',
+      ai: {
+        provider: 'deepseek',
+        model: 'deepseek-chat',
+        apiKeyEnv: 'DEEPSEEK_API_KEY'
+      },
+      status: 'IDLE',
+      stats: { tasks: 0, up: '0m', msg: 0, err: 0 },
+      channels: [{ name: 'Internal', color: '#78909c' }],
+      sprite: { hair: '#212121', skin: '#ffcc80', shirt: '#4a148c', pants: '#311b92' }
+    },
+    {
+      id: 'w3',
+      name: 'DATA',
+      kind: 'worker',
+      role: 'Data extraction & web tasks',
+      persona:
+        'Runs structured data extraction, scraping, and web-side tasks alongside other workers. Isolated tool stack per workspace, with SOUL.md, AGENTS.md, TOOLS.md, and IDENTITY.md anchoring role and routing. Writes normalized findings and datasets into disks/km/ for future retrieval before broad web passes.',
+      workspace: '~/.openclaw/agents/w3/workspace',
+      ai: {
+        provider: 'gemini',
+        model: 'gemini-2.5-flash',
+        apiKeyEnv: 'GEMINI_API_KEY'
+      },
+      status: 'IDLE',
+      stats: { tasks: 0, up: '0m', msg: 0, err: 0 },
+      channels: [{ name: 'Internal', color: '#78909c' }],
+      sprite: { hair: '#e65100', skin: '#ffd54f', shirt: '#006064', pants: '#004d40' }
+    },
+    {
+      id: 'n8n',
+      name: 'N8N',
+      kind: 'automation',
+      role: 'Workflows & schedules',
+      persona:
+        'Handles scheduled reports, data sync, and webhook triggers. GM and Workers offload recurring, deterministic work to n8n so they stay available for triage, research, coding, and synthesis. This agent still follows the same per-agent workspace contract with SOUL.md, AGENTS.md, TOOLS.md, and IDENTITY.md.',
+      workspace: '~/.openclaw/agents/n8n/workspace',
+      ai: {
+        provider: 'gemini',
+        model: 'gemini-2.5-flash',
+        apiKeyEnv: 'GEMINI_API_KEY'
+      },
+      status: 'IDLE',
+      stats: { tasks: 0, up: '0m', msg: 0, err: 0 },
       channels: [
-        { name: 'Discord', color: '#5865f2' },
-        { name: 'Slack', color: '#611f69' }
+        { name: 'Webhook', color: '#ff6d5a' },
+        { name: 'Schedule', color: '#546e7a' }
       ],
-      sprite: { hair: '#e65100', skin: '#ffd54f', shirt: '#1b5e20', pants: '#212121' }
+      sprite: { hair: '#455a64', skin: '#cfd8dc', shirt: '#d84315', pants: '#37474f' }
     }
   ],
   schedules: [
     {
       id: 'daily-summary',
-      name: 'Daily summary',
+      name: 'Daily reports & sync (n8n)',
       enabled: false,
       cron: '0 18 * * *',
-      target: 'pa'
+      target: 'n8n'
     }
   ]
 };

@@ -10,9 +10,9 @@ function freshStore() {
 test('init creates agent state from TeamConfig', function () {
   freshStore();
 
-  assert.equal(OfficeRuntimeStore.getSelectedAgentId(), 'pa');
-  assert.equal(OfficeRuntimeStore.getAgent('wk').role, 'Email & calendar');
-  assert.equal(OfficeRuntimeStore.getAgent('wk').ai.provider, 'deepseek');
+  assert.equal(OfficeRuntimeStore.getSelectedAgentId(), 'gm');
+  assert.equal(OfficeRuntimeStore.getAgent('w2').role, 'Code & implementation');
+  assert.equal(OfficeRuntimeStore.getAgent('w2').ai.provider, 'deepseek');
 });
 
 test('normalizeTaskInput maps UI commands into canonical task shape', function () {
@@ -21,14 +21,14 @@ test('normalizeTaskInput maps UI commands into canonical task shape', function (
     sourceType: 'chat-ops',
     sourceLabel: 'Discord',
     command: 'summarize today',
-    requestedAgentId: 'wk',
+    requestedAgentId: 'w2',
     metadata: { channel: 'ops-room' }
   });
 
   assert.equal(task.sourceType, 'chat-ops');
   assert.equal(task.sourceLabel, 'Discord');
   assert.equal(task.command, 'summarize today');
-  assert.equal(task.requestedAgentId, 'wk');
+  assert.equal(task.requestedAgentId, 'w2');
   assert.equal(task.ai.provider, 'deepseek');
   assert.equal(task.ai.model, 'deepseek-chat');
   assert.equal(task.metadata.channel, 'ops-room');
@@ -39,11 +39,11 @@ test('submitTask creates a completed run with lifecycle history', function () {
   var run = OfficeRuntimeStore.submitTask({
     sourceType: 'web-ui',
     command: 'status report all agents',
-    requestedAgentId: 'pa'
+    requestedAgentId: 'gm'
   });
   var latestRun = OfficeRuntimeStore.getLatestRun();
 
-  assert.equal(run.agentId, 'pa');
+  assert.equal(run.agentId, 'gm');
   assert.equal(run.status, 'completed');
   assert.equal(run.ai.provider, 'gemini');
   assert.equal(run.ai.model, 'gemini-2.5-pro');
@@ -55,7 +55,7 @@ test('submitTask creates a completed run with lifecycle history', function () {
   ]);
   assert.equal(latestRun.id, run.id);
   assert.match(run.summary, /gemini\/gemini-2.5-pro/);
-  assert.equal(OfficeRuntimeStore.getAgent('pa').tasks, 9);
+  assert.equal(OfficeRuntimeStore.getAgent('gm').tasks, 1);
 });
 
 test('addAgent extends runtime config and agent map', function () {
@@ -76,7 +76,7 @@ test('addAgent extends runtime config and agent map', function () {
     pants: '#222222'
   }));
 
-  assert.equal(OfficeRuntimeStore.getTeamConfig().agents.length, 4);
+  assert.equal(OfficeRuntimeStore.getTeamConfig().agents.length, 6);
   assert.equal(OfficeRuntimeStore.getAgent('ops2').name, 'OPS_TWO');
   assert.equal(OfficeRuntimeStore.getAgent('ops2').ai.apiKeyEnv, 'GEMINI_API_KEY');
   assert.equal(OfficeRuntimeStore.getSelectedAgentId(), 'ops2');
@@ -84,7 +84,7 @@ test('addAgent extends runtime config and agent map', function () {
 
 test('updateAgent keeps runtime and team config AI settings aligned', function () {
   freshStore();
-  OfficeRuntimeStore.updateAgent('pa', {
+  OfficeRuntimeStore.updateAgent('gm', {
     ai: {
       provider: 'deepseek',
       model: 'deepseek-reasoner',
@@ -92,6 +92,6 @@ test('updateAgent keeps runtime and team config AI settings aligned', function (
     }
   });
 
-  assert.equal(OfficeRuntimeStore.getAgent('pa').ai.provider, 'deepseek');
+  assert.equal(OfficeRuntimeStore.getAgent('gm').ai.provider, 'deepseek');
   assert.equal(OfficeRuntimeStore.getTeamConfig().agents[0].ai.model, 'deepseek-reasoner');
 });

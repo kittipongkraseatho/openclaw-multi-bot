@@ -2,14 +2,36 @@
  * openclaw-api.js — connector to OpenClaw Gateway WebSocket
  *
  * วิธีใช้:
- *   1. ตั้งค่า OPENCLAW_WS_URL ให้ตรงกับ gateway ของคุณ
+ *   1. ตั้งค่า window.OPENCLAW_WS_URL เองถ้าต้องการ override auto-detect
  *   2. เรียก OpenClawAPI.connect() หลังจาก DOM โหลดเสร็จ
  *   3. ส่งคำสั่งด้วย OpenClawAPI.send(agentId, command)
  *
- * OpenClaw Gateway WebSocket: ws://127.0.0.1:18789
+ * Local default: ws://127.0.0.1:18789
  */
 
-var OPENCLAW_WS_URL = 'ws://127.0.0.1:18789';
+function resolveOpenClawWsUrl() {
+  if (typeof window === 'undefined' || !window.location) {
+    return 'ws://127.0.0.1:18789';
+  }
+
+  var protocol = window.location.protocol;
+  var hostname = window.location.hostname;
+  var isLocalhost = hostname === '127.0.0.1' || hostname === 'localhost';
+
+  if (protocol !== 'http:' && protocol !== 'https:') {
+    return 'ws://127.0.0.1:18789';
+  }
+
+  if (isLocalhost) {
+    return 'ws://127.0.0.1:18789';
+  }
+
+  return (protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws';
+}
+
+var OPENCLAW_WS_URL = (
+  typeof window !== 'undefined' && window.OPENCLAW_WS_URL
+) || resolveOpenClawWsUrl();
 
 var OpenClawAPI = (function () {
   var _ws = null;

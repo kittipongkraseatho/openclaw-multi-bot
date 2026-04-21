@@ -39,12 +39,12 @@ test('validateTeamConfig rejects duplicate agent ids', function () {
 test('buildAgentMap converts config agents into runtime records', function () {
   var agents = TeamConfig.buildAgentMap(TeamConfig.DEFAULT_TEAM_CONFIG);
 
-  assert.equal(agents.pa.name, 'PERSONAL');
-  assert.equal(agents.pa.stClass, 'st-working');
-  assert.equal(agents.pa.channels[0].name, 'Telegram');
-  assert.equal(agents.pa.ai.provider, 'gemini');
-  assert.equal(agents.wk.ai.provider, 'deepseek');
-  assert.equal(agents.op.status, 'IDLE');
+  assert.equal(agents.gm.name, 'GM');
+  assert.equal(agents.gm.stClass, 'st-working');
+  assert.equal(agents.gm.channels[0].name, 'Discord');
+  assert.equal(agents.gm.ai.provider, 'gemini');
+  assert.equal(agents.w2.ai.provider, 'deepseek');
+  assert.equal(agents.n8n.status, 'IDLE');
 });
 
 test('createAgentConfig returns a normalized worker config', function () {
