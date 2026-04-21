@@ -2,7 +2,7 @@ server {
     listen ${PORT};
     listen [::]:${PORT};
     server_name _;
-    resolver ${NGINX_LOCAL_RESOLVERS} valid=30s ipv6=off;
+    resolver ${NGINX_RESOLVER} valid=30s ipv6=off;
 
     root /usr/share/nginx/html;
     index index.html;
