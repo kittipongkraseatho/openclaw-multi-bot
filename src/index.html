@@ -45,23 +45,23 @@
       </div>
     </div>
 
-    <!-- Floor plan -->
+    <!-- Floor plan (compact center column) -->
     <div class="floor">
       <div class="room active" id="room-conf">
         <div class="room-label"><div class="room-label-dot" style="background:#00ff88"></div>CONFERENCE ROOM</div>
-        <div class="room-inner"><canvas id="canvas-conf" width="160" height="80"></canvas></div>
+        <div class="room-inner"><canvas id="canvas-conf" width="144" height="64"></canvas></div>
       </div>
       <div class="room" id="room-server">
         <div class="room-label"><div class="room-label-dot" style="background:#4fc3f7"></div>SERVER ROOM</div>
-        <div class="room-inner"><canvas id="canvas-server" width="160" height="80"></canvas></div>
+        <div class="room-inner"><canvas id="canvas-server" width="144" height="64"></canvas></div>
       </div>
       <div class="room" id="room-workspace">
         <div class="room-label"><div class="room-label-dot" style="background:#f59e0b"></div>WORKSPACE</div>
-        <div class="room-inner"><canvas id="canvas-workspace" width="160" height="80"></canvas></div>
+        <div class="room-inner"><canvas id="canvas-workspace" width="144" height="64"></canvas></div>
       </div>
       <div class="room" id="room-deploy">
         <div class="room-label"><div class="room-label-dot" style="background:#ff6b6b"></div>DEPLOY ZONE</div>
-        <div class="room-inner"><canvas id="canvas-deploy" width="160" height="80"></canvas></div>
+        <div class="room-inner"><canvas id="canvas-deploy" width="144" height="64"></canvas></div>
       </div>
       <div class="log-strip">
         <div class="log-strip-title">Activity log</div>
@@ -90,15 +90,23 @@
         <div class="stat-box"><div class="stat-box-label">Msgs</div><div class="stat-box-val" id="s-msg">47</div><div class="stat-box-sub">sent</div></div>
         <div class="stat-box"><div class="stat-box-label">Errors</div><div class="stat-box-val" id="s-err">0</div><div class="stat-box-sub">today</div></div>
       </div>
-      <div class="channels">
-        <div class="ch-title">Channels</div>
-        <div class="ch-list" id="ch-list"></div>
-      </div>
-      <div class="ai-box">
-        <div class="ai-title">AI Settings</div>
-        <div class="ai-row"><span class="ai-label">PROVIDER</span><span class="ai-val" id="ai-provider">gemini</span></div>
-        <div class="ai-row"><span class="ai-label">MODEL</span><span class="ai-val" id="ai-model">gemini-2.5-pro</span></div>
-        <div class="ai-row"><span class="ai-label">API KEY ENV</span><span class="ai-val" id="ai-api-env">GEMINI_API_KEY</span></div>
+      <div class="settings-block">
+        <div class="settings-block-head">
+          <span class="settings-block-title">SETTINGS</span>
+          <span class="settings-block-sub">การตั้งค่า · ช่องทาง &amp; AI</span>
+        </div>
+        <div class="settings-block-body">
+          <div class="channels">
+            <div class="ch-title">Channels</div>
+            <div class="ch-list" id="ch-list"></div>
+          </div>
+          <div class="ai-box">
+            <div class="ai-title">AI Settings</div>
+            <div class="ai-row"><span class="ai-label">PROVIDER</span><span class="ai-val" id="ai-provider">gemini</span></div>
+            <div class="ai-row"><span class="ai-label">MODEL</span><span class="ai-val" id="ai-model">gemini-2.5-pro</span></div>
+            <div class="ai-row"><span class="ai-label">API KEY ENV</span><span class="ai-val" id="ai-api-env">GEMINI_API_KEY</span></div>
+          </div>
+        </div>
       </div>
       <div class="terminal">
         <div class="term-title">Command</div>
